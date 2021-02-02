@@ -56,7 +56,7 @@ export declare class YylWebpackPluginBase {
     /** 获取文件类型 */
     getFileType(str: string): string;
     /** 获取文件名称 */
-    getFileName(name: string, cnt: Buffer): string;
+    getFileName(name: string, cnt: Buffer, fname?: string): string;
     /** 初始化 compilation */
     initCompilation(compiler: Compiler): Promise<InitEmitHooksResult>;
     /** 更新 assets */

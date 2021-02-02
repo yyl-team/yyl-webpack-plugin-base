@@ -91,8 +91,12 @@ export class YylWebpackPluginBase {
   }
 
   /** 获取文件名称 */
-  getFileName(name: string, cnt: Buffer) {
-    const { filename } = this
+  getFileName(name: string, cnt: Buffer, fname?: string) {
+    let { filename } = this
+    if (fname) {
+      filename = fname
+    }
+
     const REG_HASH = /\[hash:(\d+)\]/g
     const REG_NAME = /\[name\]/g
     const REG_EXT = /\[ext\]/g

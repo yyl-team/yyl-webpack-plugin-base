@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.0
+ * yyl-webpack-plugin-base cjs 0.1.1
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -79,8 +79,11 @@ class YylWebpackPluginBase {
         return ext;
     }
     /** 获取文件名称 */
-    getFileName(name, cnt) {
-        const { filename } = this;
+    getFileName(name, cnt, fname) {
+        let { filename } = this;
+        if (fname) {
+            filename = fname;
+        }
         const REG_HASH = /\[hash:(\d+)\]/g;
         const REG_NAME = /\[name\]/g;
         const REG_EXT = /\[ext\]/g;

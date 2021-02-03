@@ -1,7 +1,7 @@
 import path from 'path'
 import util from 'yyl-util'
 import { createHash } from 'crypto'
-import { Compilation, Compiler } from 'webpack'
+import { Compilation, Compiler, sources } from 'webpack'
 
 /** 任意类型转义 */
 export function toCtx<T = any>(ctx: any) {
@@ -199,34 +199,38 @@ export class YylWebpackPluginBase {
   updateAssets(op: UpdateAssetsOption) {
     const { compilation, assetsInfo, oriDist } = op
     const iAssets: any = {}
-    iAssets[assetsInfo.dist] = {
-      source() {
-        return assetsInfo.source
-      },
-      size() {
-        return assetsInfo.source.length
-      }
+    compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false))
+    if (oriDist !== assetsInfo.dist && oriDist) {
+      compilation.deleteAsset(oriDist)
     }
-    compilation.assets[assetsInfo.dist] = {
-      source() {
-        return assetsInfo.source
-      },
-      size() {
-        return assetsInfo.source.length
-      }
-    } as any
+    // iAssets[assetsInfo.dist] = {
+    //   source() {
+    //     return assetsInfo.source
+    //   },
+    //   size() {
+    //     return assetsInfo.source.length
+    //   }
+    // }
+    // compilation.assets[assetsInfo.dist] = {
+    //   source() {
+    //     return assetsInfo.source
+    //   },
+    //   size() {
+    //     return assetsInfo.source.length
+    //   }
+    // } as any
 
-    // 更新 assetMap
-    if (oriDist !== assetsInfo.dist) {
-      if (oriDist) {
-        delete compilation.assets[oriDist]
-      }
-      compilation.hooks.moduleAsset.call(
-        {
-          userRequest: assetsInfo.src
-        } as any,
-        assetsInfo.dist
-      )
-    }
+    // // 更新 assetMap
+    // if (oriDist !== assetsInfo.dist) {
+    //   if (oriDist) {
+    //     delete compilation.assets[oriDist]
+    //   }
+    //   compilation.hooks.moduleAsset.call(
+    //     {
+    //       userRequest: assetsInfo.src
+    //     } as any,
+    //     assetsInfo.dist
+    //   )
+    // }
   }
 }

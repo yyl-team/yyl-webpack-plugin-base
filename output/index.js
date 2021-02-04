@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.2
+ * yyl-webpack-plugin-base cjs 0.1.3
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -156,7 +156,10 @@ class YylWebpackPluginBase {
                 stats.assets.forEach((asset) => {
                     const name = moduleAssets[asset.name];
                     if (name) {
-                        assetMap[util__default['default'].path.join(name)] = asset.name;
+                        assetMap[name] = asset.name;
+                    }
+                    else if (asset.info.sourceFilename) {
+                        assetMap[util__default['default'].path.join(path__default['default'].dirname(asset.name), path__default['default'].basename(asset.info.sourceFilename))] = asset.name;
                     }
                 });
                 // - init assetMap
@@ -170,6 +173,20 @@ class YylWebpackPluginBase {
             // - map init
         });
     }
+    /** 插件运行 */
+    apply(compiler) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { name } = this;
+            const { compilation, done } = yield this.initCompilation(compiler);
+            const logger = compiler.getInfrastructureLogger(name);
+            logger.group();
+            Object.keys(this.assetMap).forEach((key) => {
+                logger.info(`${key} -> ${this.assetMap[key]}`);
+            });
+            logger.groupEnd();
+            done();
+        });
+    }
     /** 更新 assets */
     updateAssets(op) {
         const { compilation, assetsInfo, oriDist } = op;
@@ -177,36 +194,9 @@ class YylWebpackPluginBase {
         if (oriDist !== assetsInfo.dist && oriDist) {
             compilation.deleteAsset(oriDist);
         }
-        // iAssets[assetsInfo.dist] = {
-        //   source() {
-        //     return assetsInfo.source
-        //   },
-        //   size() {
-        //     return assetsInfo.source.length
-        //   }
-        // }
-        // compilation.assets[assetsInfo.dist] = {
-        //   source() {
-        //     return assetsInfo.source
-        //   },
-        //   size() {
-        //     return assetsInfo.source.length
-        //   }
-        // } as any
-        // // 更新 assetMap
-        // if (oriDist !== assetsInfo.dist) {
-        //   if (oriDist) {
-        //     delete compilation.assets[oriDist]
-        //   }
-        //   compilation.hooks.moduleAsset.call(
-        //     {
-        //       userRequest: assetsInfo.src
-        //     } as any,
-        //     assetsInfo.dist
-        //   )
-        // }
     }
 }
+module.exports = YylWebpackPluginBase;
 
 exports.YylWebpackPluginBase = YylWebpackPluginBase;
 exports.toCtx = toCtx;

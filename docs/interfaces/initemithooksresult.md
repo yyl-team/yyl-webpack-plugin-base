@@ -21,7 +21,7 @@ emit hook init - 返回结果
 
 • **compilation**: *Compilation*
 
-Defined in: [index.ts:24](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L24)
+Defined in: [index.ts:24](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/12d5fa5/src/index.ts#L24)
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 完成回调
 
-Defined in: [index.ts:26](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L26)
+Defined in: [index.ts:26](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/12d5fa5/src/index.ts#L26)

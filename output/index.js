@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.5
+ * yyl-webpack-plugin-base cjs 0.1.6
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -192,9 +192,16 @@ class YylWebpackPluginBase {
     /** 更新 assets */
     updateAssets(op) {
         const { compilation, assetsInfo, oriDist } = op;
-        compilation.emitAsset(assetsInfo.dist, new webpack.sources.RawSource(assetsInfo.source, false), {
-            sourceFilename: assetsInfo.src || assetsInfo.dist
-        });
+        if (compilation.assets[assetsInfo.dist]) {
+            compilation.updateAsset(assetsInfo.dist, new webpack.sources.RawSource(assetsInfo.source, false), {
+                sourceFilename: assetsInfo.src || assetsInfo.dist
+            });
+        }
+        else {
+            compilation.emitAsset(assetsInfo.dist, new webpack.sources.RawSource(assetsInfo.source, false), {
+                sourceFilename: assetsInfo.src || assetsInfo.dist
+            });
+        }
         if (oriDist !== assetsInfo.dist && oriDist) {
             compilation.deleteAsset(oriDist);
         }

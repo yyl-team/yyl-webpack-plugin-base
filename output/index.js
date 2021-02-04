@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.4
+ * yyl-webpack-plugin-base cjs 0.1.5
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -8,6 +8,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var path = require('path');
+var fs = require('fs');
 var util = require('yyl-util');
 var crypto = require('crypto');
 var webpack = require('webpack');
@@ -15,6 +16,7 @@ var webpack = require('webpack');
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var util__default = /*#__PURE__*/_interopDefaultLegacy(util);
 
 /*! *****************************************************************************
@@ -178,8 +180,8 @@ class YylWebpackPluginBase {
         return __awaiter(this, void 0, void 0, function* () {
             const { name } = this;
             const { compilation, done } = yield this.initCompilation(compiler);
-            const logger = compiler.getInfrastructureLogger(name);
-            logger.group();
+            const logger = compilation.getLogger(name);
+            logger.group(name);
             Object.keys(this.assetMap).forEach((key) => {
                 logger.info(`${key} -> ${this.assetMap[key]}`);
             });
@@ -190,10 +192,21 @@ class YylWebpackPluginBase {
     /** 更新 assets */
     updateAssets(op) {
         const { compilation, assetsInfo, oriDist } = op;
-        compilation.emitAsset(assetsInfo.dist, new webpack.sources.RawSource(assetsInfo.source, false));
+        compilation.emitAsset(assetsInfo.dist, new webpack.sources.RawSource(assetsInfo.source, false), {
+            sourceFilename: assetsInfo.src || assetsInfo.dist
+        });
         if (oriDist !== assetsInfo.dist && oriDist) {
             compilation.deleteAsset(oriDist);
         }
+    }
+    /** 添加监听文件 */
+    addDependencies(op) {
+        const { srcs, compilation } = op;
+        srcs.forEach((src) => {
+            if (fs__default['default'].existsSync(src)) {
+                compilation.fileDependencies.add(src);
+            }
+        });
     }
 }
 

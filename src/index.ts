@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import util from 'yyl-util'
 import { createHash } from 'crypto'
 import { Compilation, Compiler, sources } from 'webpack'
@@ -47,6 +48,12 @@ export interface AssetsInfo {
   dist: string
   /** 内容 */
   source: Buffer
+}
+
+/** 添加监听-属性 */
+export interface AddDependenciesOption {
+  compilation: Compilation
+  srcs: string[]
 }
 
 /** yyl webpack plugin 基础类 - 属性 */
@@ -203,8 +210,8 @@ export class YylWebpackPluginBase {
   async apply(compiler: Compiler) {
     const { name } = this
     const { compilation, done } = await this.initCompilation(compiler)
-    const logger = compiler.getInfrastructureLogger(name)
-    logger.group()
+    const logger = compilation.getLogger(name)
+    logger.group(name)
     Object.keys(this.assetMap).forEach((key) => {
       logger.info(`${key} -> ${this.assetMap[key]}`)
     })
@@ -215,10 +222,21 @@ export class YylWebpackPluginBase {
   /** 更新 assets */
   updateAssets(op: UpdateAssetsOption) {
     const { compilation, assetsInfo, oriDist } = op
-    const iAssets: any = {}
-    compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false))
+    compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
+      sourceFilename: assetsInfo.src || assetsInfo.dist
+    })
     if (oriDist !== assetsInfo.dist && oriDist) {
       compilation.deleteAsset(oriDist)
     }
+  }
+
+  /** 添加监听文件 */
+  addDependencies(op: AddDependenciesOption) {
+    const { srcs, compilation } = op
+    srcs.forEach((src) => {
+      if (fs.existsSync(src)) {
+        compilation.fileDependencies.add(src)
+      }
+    })
   }
 }

@@ -24,7 +24,7 @@
 
 输出目录
 
-Defined in: [index.ts:47](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L47)
+Defined in: [index.ts:48](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L48)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 内容
 
-Defined in: [index.ts:49](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L49)
+Defined in: [index.ts:50](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L50)
 
 ___
 
@@ -44,4 +44,4 @@ ___
 
 文件源
 
-Defined in: [index.ts:45](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L45)
+Defined in: [index.ts:46](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L46)

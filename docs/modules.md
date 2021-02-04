@@ -10,6 +10,7 @@
 
 ### Interfaces
 
+- [AddDependenciesOption](interfaces/adddependenciesoption.md)
 - [Alias](interfaces/alias.md)
 - [AssetsInfo](interfaces/assetsinfo.md)
 - [InitEmitHooksResult](interfaces/initemithooksresult.md)
@@ -33,7 +34,7 @@
 
 yyl webpack plugin 基础类 - 属性
 
-Defined in: [index.ts:53](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L53)
+Defined in: [index.ts:60](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L60)
 
 ## Functions
 
@@ -57,4 +58,4 @@ Name | Type |
 
 **Returns:** T
 
-Defined in: [index.ts:7](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L7)
+Defined in: [index.ts:8](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L8)

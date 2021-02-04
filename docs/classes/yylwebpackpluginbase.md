@@ -24,6 +24,7 @@ yyl webpack plugin 基础类
 
 ### Methods
 
+- [addDependencies](yylwebpackpluginbase.md#adddependencies)
 - [apply](yylwebpackpluginbase.md#apply)
 - [getFileName](yylwebpackpluginbase.md#getfilename)
 - [getFileType](yylwebpackpluginbase.md#getfiletype)
@@ -44,7 +45,7 @@ Name | Type |
 
 **Returns:** [*YylWebpackPluginBase*](yylwebpackpluginbase.md)
 
-Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L65)
+Defined in: [index.ts:72](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L72)
 
 ## Properties
 
@@ -54,7 +55,7 @@ Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-bas
 
 resolve.alias 绝对路径
 
-Defined in: [index.ts:63](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L63)
+Defined in: [index.ts:70](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L70)
 
 ___
 
@@ -64,7 +65,7 @@ ___
 
 assetsMap
 
-Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L65)
+Defined in: [index.ts:72](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L72)
 
 ___
 
@@ -74,7 +75,7 @@ ___
 
 相对路径
 
-Defined in: [index.ts:57](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L57)
+Defined in: [index.ts:64](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L64)
 
 ___
 
@@ -84,7 +85,7 @@ ___
 
 输出文件格式
 
-Defined in: [index.ts:61](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L61)
+Defined in: [index.ts:68](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L68)
 
 ___
 
@@ -94,9 +95,27 @@ ___
 
 组件名称
 
-Defined in: [index.ts:59](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L59)
+Defined in: [index.ts:66](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L66)
 
 ## Methods
+
+### addDependencies
+
+▸ **addDependencies**(`op`: [*AddDependenciesOption*](../interfaces/adddependenciesoption.md)): *void*
+
+添加监听文件
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`op` | [*AddDependenciesOption*](../interfaces/adddependenciesoption.md) |
+
+**Returns:** *void*
+
+Defined in: [index.ts:234](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L234)
+
+___
 
 ### apply
 
@@ -112,7 +131,7 @@ Name | Type |
 
 **Returns:** *Promise*<*void*\>
 
-Defined in: [index.ts:203](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L203)
+Defined in: [index.ts:210](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L210)
 
 ___
 
@@ -132,7 +151,7 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: [index.ts:94](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L94)
+Defined in: [index.ts:101](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L101)
 
 ___
 
@@ -150,7 +169,7 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: [index.ts:82](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L82)
+Defined in: [index.ts:89](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L89)
 
 ___
 
@@ -168,7 +187,7 @@ Name | Type |
 
 **Returns:** *Promise*<[*InitEmitHooksResult*](../interfaces/initemithooksresult.md)\>
 
-Defined in: [index.ts:124](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L124)
+Defined in: [index.ts:131](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L131)
 
 ___
 
@@ -186,4 +205,4 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [index.ts:216](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L216)
+Defined in: [index.ts:223](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L223)

@@ -222,9 +222,15 @@ export class YylWebpackPluginBase {
   /** 更新 assets */
   updateAssets(op: UpdateAssetsOption) {
     const { compilation, assetsInfo, oriDist } = op
-    compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
-      sourceFilename: assetsInfo.src || assetsInfo.dist
-    })
+    if (compilation.assets[assetsInfo.dist]) {
+      compilation.updateAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
+        sourceFilename: assetsInfo.src || assetsInfo.dist
+      })
+    } else {
+      compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
+        sourceFilename: assetsInfo.src || assetsInfo.dist
+      })
+    }
     if (oriDist !== assetsInfo.dist && oriDist) {
       compilation.deleteAsset(oriDist)
     }

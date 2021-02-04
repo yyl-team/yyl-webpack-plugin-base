@@ -21,7 +21,7 @@
 
 • **compilation**: *Compilation*
 
-Defined in: [index.ts:55](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L55)
+Defined in: [index.ts:55](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/12d5fa5/src/index.ts#L55)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 • **srcs**: *string*[]
 
-Defined in: [index.ts:56](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L56)
+Defined in: [index.ts:56](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/12d5fa5/src/index.ts#L56)

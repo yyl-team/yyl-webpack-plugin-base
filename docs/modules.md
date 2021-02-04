@@ -33,7 +33,7 @@
 
 yyl webpack plugin 基础类 - 属性
 
-Defined in: [index.ts:53](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L53)
+Defined in: [index.ts:53](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L53)
 
 ## Functions
 
@@ -57,4 +57,4 @@ Name | Type |
 
 **Returns:** T
 
-Defined in: [index.ts:7](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L7)
+Defined in: [index.ts:7](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L7)

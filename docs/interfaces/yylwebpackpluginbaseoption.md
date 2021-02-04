@@ -22,7 +22,7 @@ yyl webpack plugin 基础类 - 配置
 
 • `Optional` **context**: *undefined* \| *string*
 
-Defined in: [index.ts:30](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L30)
+Defined in: [index.ts:30](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L30)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • `Optional` **filename**: *undefined* \| *string*
 
-Defined in: [index.ts:32](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L32)
+Defined in: [index.ts:32](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L32)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 • `Optional` **name**: *undefined* \| *string*
 
-Defined in: [index.ts:31](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L31)
+Defined in: [index.ts:31](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L31)

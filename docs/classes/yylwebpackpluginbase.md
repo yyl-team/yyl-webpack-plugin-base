@@ -44,7 +44,7 @@ Name | Type |
 
 **Returns:** [*YylWebpackPluginBase*](yylwebpackpluginbase.md)
 
-Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L65)
+Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L65)
 
 ## Properties
 
@@ -54,7 +54,7 @@ Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-bas
 
 resolve.alias 绝对路径
 
-Defined in: [index.ts:63](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L63)
+Defined in: [index.ts:63](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L63)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 assetsMap
 
-Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L65)
+Defined in: [index.ts:65](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L65)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 相对路径
 
-Defined in: [index.ts:57](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L57)
+Defined in: [index.ts:57](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L57)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 输出文件格式
 
-Defined in: [index.ts:61](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L61)
+Defined in: [index.ts:61](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L61)
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 组件名称
 
-Defined in: [index.ts:59](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L59)
+Defined in: [index.ts:59](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L59)
 
 ## Methods
 
@@ -112,7 +112,7 @@ Name | Type |
 
 **Returns:** *Promise*<*void*\>
 
-Defined in: [index.ts:203](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L203)
+Defined in: [index.ts:203](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L203)
 
 ___
 
@@ -132,7 +132,7 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: [index.ts:94](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L94)
+Defined in: [index.ts:94](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L94)
 
 ___
 
@@ -150,7 +150,7 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: [index.ts:82](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L82)
+Defined in: [index.ts:82](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L82)
 
 ___
 
@@ -168,7 +168,7 @@ Name | Type |
 
 **Returns:** *Promise*<[*InitEmitHooksResult*](../interfaces/initemithooksresult.md)\>
 
-Defined in: [index.ts:124](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L124)
+Defined in: [index.ts:124](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L124)
 
 ___
 
@@ -186,4 +186,4 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [index.ts:216](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/3192340/src/index.ts#L216)
+Defined in: [index.ts:216](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L216)

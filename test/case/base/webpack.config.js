@@ -3,9 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const extOs = require('yyl-os')
-const IPlugin = require('../../../')
-
-console.log(IPlugin)
+const { YylWebpackPluginBase } = require('../../../')
 
 // + plugin options
 const iPluginOption = {
@@ -57,7 +55,7 @@ const wConfig = {
   devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(),
-    new IPlugin(iPluginOption),
+    new YylWebpackPluginBase(iPluginOption),
     new HtmlWebpackPlugin({
       template: './src/entry/index/index.html',
       filename: '../html/index.html',

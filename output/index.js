@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.3
+ * yyl-webpack-plugin-base cjs 0.1.4
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -196,7 +196,6 @@ class YylWebpackPluginBase {
         }
     }
 }
-module.exports = YylWebpackPluginBase;
 
 exports.YylWebpackPluginBase = YylWebpackPluginBase;
 exports.toCtx = toCtx;

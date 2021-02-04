@@ -222,5 +222,3 @@ export class YylWebpackPluginBase {
     }
   }
 }
-
-module.exports = YylWebpackPluginBase

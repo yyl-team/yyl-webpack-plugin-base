@@ -1,5 +1,10 @@
 # 版本变更
 
+## 0.1.5 (2021-02-04)
+
+- fix: 调整 updateAssets 逻辑
+- feat: 添加 addDependencies 方法
+
 ## 0.1.4 (2021-02-04)
 
 - fix: 修复 组件 引用不了问题

@@ -22,7 +22,7 @@
 
 assets 信息
 
-Defined in: [index.ts:39](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L39)
+Defined in: [index.ts:40](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L40)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • **compilation**: *Compilation*
 
-Defined in: [index.ts:40](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L40)
+Defined in: [index.ts:41](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L41)
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 原先输出路径
 
-Defined in: [index.ts:37](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/22a8240/src/index.ts#L37)
+Defined in: [index.ts:38](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/2bd29c1/src/index.ts#L38)

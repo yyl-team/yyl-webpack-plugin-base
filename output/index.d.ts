@@ -59,6 +59,8 @@ export declare class YylWebpackPluginBase {
     getFileName(name: string, cnt: Buffer, fname?: string): string;
     /** 初始化 compilation */
     initCompilation(compiler: Compiler): Promise<InitEmitHooksResult>;
+    /** 插件运行 */
+    apply(compiler: Compiler): Promise<void>;
     /** 更新 assets */
     updateAssets(op: UpdateAssetsOption): void;
 }

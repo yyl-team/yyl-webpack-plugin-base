@@ -178,7 +178,11 @@ export class YylWebpackPluginBase {
         stats.assets.forEach((asset: any) => {
           const name = moduleAssets[asset.name]
           if (name) {
-            assetMap[util.path.join(name)] = asset.name
+            assetMap[name] = asset.name
+          } else if (asset.info.sourceFilename) {
+            assetMap[
+              util.path.join(path.dirname(asset.name), path.basename(asset.info.sourceFilename))
+            ] = asset.name
           }
         })
         // - init assetMap
@@ -195,6 +199,19 @@ export class YylWebpackPluginBase {
     })
   }
 
+  /** 插件运行 */
+  async apply(compiler: Compiler) {
+    const { name } = this
+    const { compilation, done } = await this.initCompilation(compiler)
+    const logger = compiler.getInfrastructureLogger(name)
+    logger.group()
+    Object.keys(this.assetMap).forEach((key) => {
+      logger.info(`${key} -> ${this.assetMap[key]}`)
+    })
+    logger.groupEnd()
+    done()
+  }
+
   /** 更新 assets */
   updateAssets(op: UpdateAssetsOption) {
     const { compilation, assetsInfo, oriDist } = op
@@ -203,34 +220,7 @@ export class YylWebpackPluginBase {
     if (oriDist !== assetsInfo.dist && oriDist) {
       compilation.deleteAsset(oriDist)
     }
-    // iAssets[assetsInfo.dist] = {
-    //   source() {
-    //     return assetsInfo.source
-    //   },
-    //   size() {
-    //     return assetsInfo.source.length
-    //   }
-    // }
-    // compilation.assets[assetsInfo.dist] = {
-    //   source() {
-    //     return assetsInfo.source
-    //   },
-    //   size() {
-    //     return assetsInfo.source.length
-    //   }
-    // } as any
-
-    // // 更新 assetMap
-    // if (oriDist !== assetsInfo.dist) {
-    //   if (oriDist) {
-    //     delete compilation.assets[oriDist]
-    //   }
-    //   compilation.hooks.moduleAsset.call(
-    //     {
-    //       userRequest: assetsInfo.src
-    //     } as any,
-    //     assetsInfo.dist
-    //   )
-    // }
   }
 }
+
+module.exports = YylWebpackPluginBase

@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.7
+ * yyl-webpack-plugin-base cjs 0.1.8
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -124,7 +124,7 @@ class YylWebpackPluginBase {
         return new Promise((resolve) => {
             const assetMap = {};
             compiler.hooks.thisCompilation.tap(name, (compilation) => {
-                compilation.hooks.processAssets.tap(name, () => {
+                compilation.hooks.processAssets.tapAsync(name, (assets, done) => {
                     const stats = compilation.getStats().toJson({
                         all: false,
                         assets: true,
@@ -154,7 +154,7 @@ class YylWebpackPluginBase {
                     this.assetMap = assetMap;
                     resolve({
                         compilation,
-                        done: () => undefined
+                        done
                     });
                 });
             });

@@ -150,7 +150,7 @@ export class YylWebpackPluginBase {
     return new Promise((resolve) => {
       const assetMap: ModuleAssets = {}
       compiler.hooks.thisCompilation.tap(name, (compilation) => {
-        compilation.hooks.processAssets.tap(name, () => {
+        compilation.hooks.processAssets.tapAsync(name, (assets: any, done) => {
           const stats = compilation.getStats().toJson({
             all: false,
             assets: true,
@@ -182,7 +182,7 @@ export class YylWebpackPluginBase {
 
           resolve({
             compilation,
-            done: () => undefined
+            done
           })
         })
       })

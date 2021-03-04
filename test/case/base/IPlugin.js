@@ -51,7 +51,9 @@ class IPlugin extends YylWebpackPluginBase {
 
     // - init assetMap
     logger.groupEnd()
-    done()
+    setTimeout(() => {
+      done()
+    }, 1000)
   }
 }
 

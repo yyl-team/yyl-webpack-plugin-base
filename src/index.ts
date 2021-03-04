@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import util from 'yyl-util'
 import { createHash } from 'crypto'
 import { Compilation, Compiler, sources } from 'webpack'
@@ -47,6 +48,12 @@ export interface AssetsInfo {
   dist: string
   /** 内容 */
   source: Buffer
+}
+
+/** 添加监听-属性 */
+export interface AddDependenciesOption {
+  compilation: Compilation
+  srcs: string[]
 }
 
 /** yyl webpack plugin 基础类 - 属性 */
@@ -141,96 +148,84 @@ export class YylWebpackPluginBase {
     }
 
     return new Promise((resolve) => {
-      // + map init
-      const moduleAssets: ModuleAssets = {}
-      compiler.hooks.compilation.tap(name, (compilation) => {
-        compilation.hooks.moduleAsset.tap(name, (module: any, file) => {
-          if (module.userAssets) {
-            moduleAssets[file] = path.join(path.dirname(file), path.basename(module.userRequest))
-          }
-        })
-      })
+      const assetMap: ModuleAssets = {}
+      compiler.hooks.thisCompilation.tap(name, (compilation) => {
+        compilation.hooks.processAssets.tapAsync(name, (assets: any, done) => {
+          const stats = compilation.getStats().toJson({
+            all: false,
+            assets: true,
+            module: true,
+            cachedAssets: true,
+            ids: true,
+            publicPath: true
+          })
 
-      compiler.hooks.emit.tapAsync(name, async (compilation, done) => {
-        // + init assetMap
-        const assetMap: ModuleAssets = {}
-        compilation.chunks.forEach((chunk) => {
-          chunk.files.forEach((fName) => {
-            if (/hot-update/.test(fName)) {
+          stats.assets.forEach((asset: any) => {
+            const extname = path.extname(asset.name)
+            const dirname = path.dirname(asset.name)
+            const oriFilename = asset.chunkNames[0]
+            let oriDist = ''
+            if (extname === '.map') {
               return
+            } else if (asset.info.sourceFilename) {
+              oriDist = path.join(dirname, path.basename(asset.info.sourceFilename))
+            } else if (oriFilename && extname !== '.map') {
+              oriDist = util.path.join(dirname, `${oriFilename}${extname}`)
             }
-            if (chunk.name) {
-              const key = `${util.path.join(path.dirname(fName), chunk.name)}.${this.getFileType(
-                fName
-              )}`
-              assetMap[key] = fName
-            } else {
-              assetMap[fName] = fName
+
+            if (oriDist) {
+              assetMap[oriDist] = asset.name
             }
           })
-        })
 
-        const stats = compilation.getStats().toJson({
-          all: false,
-          assets: true,
-          cachedAssets: true
-        })
-        stats.assets.forEach((asset: any) => {
-          const name = moduleAssets[asset.name]
-          if (name) {
-            assetMap[util.path.join(name)] = asset.name
-          }
-        })
-        // - init assetMap
+          this.assetMap = assetMap
 
-        this.assetMap = assetMap
-        this.alias = alias
-
-        resolve({
-          compilation,
-          done
+          resolve({
+            compilation,
+            done
+          })
         })
       })
-      // - map init
     })
+  }
+
+  /** 插件运行 */
+  async apply(compiler: Compiler) {
+    const { name } = this
+    const { compilation, done } = await this.initCompilation(compiler)
+    const logger = compilation.getLogger(name)
+    logger.group(name)
+    Object.keys(this.assetMap).forEach((key) => {
+      logger.info(`${key} -> ${this.assetMap[key]}`)
+    })
+    logger.groupEnd()
+    done()
   }
 
   /** 更新 assets */
   updateAssets(op: UpdateAssetsOption) {
     const { compilation, assetsInfo, oriDist } = op
-    const iAssets: any = {}
-    compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false))
+    if (compilation.assets[assetsInfo.dist]) {
+      compilation.updateAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
+        sourceFilename: assetsInfo.src || assetsInfo.dist
+      })
+    } else {
+      compilation.emitAsset(assetsInfo.dist, new sources.RawSource(assetsInfo.source, false), {
+        sourceFilename: assetsInfo.src || assetsInfo.dist
+      })
+    }
     if (oriDist !== assetsInfo.dist && oriDist) {
       compilation.deleteAsset(oriDist)
     }
-    // iAssets[assetsInfo.dist] = {
-    //   source() {
-    //     return assetsInfo.source
-    //   },
-    //   size() {
-    //     return assetsInfo.source.length
-    //   }
-    // }
-    // compilation.assets[assetsInfo.dist] = {
-    //   source() {
-    //     return assetsInfo.source
-    //   },
-    //   size() {
-    //     return assetsInfo.source.length
-    //   }
-    // } as any
+  }
 
-    // // 更新 assetMap
-    // if (oriDist !== assetsInfo.dist) {
-    //   if (oriDist) {
-    //     delete compilation.assets[oriDist]
-    //   }
-    //   compilation.hooks.moduleAsset.call(
-    //     {
-    //       userRequest: assetsInfo.src
-    //     } as any,
-    //     assetsInfo.dist
-    //   )
-    // }
+  /** 添加监听文件 */
+  addDependencies(op: AddDependenciesOption) {
+    const { srcs, compilation } = op
+    srcs.forEach((src) => {
+      if (fs.existsSync(src)) {
+        compilation.fileDependencies.add(src)
+      }
+    })
   }
 }

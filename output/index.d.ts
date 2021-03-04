@@ -38,6 +38,11 @@ export interface AssetsInfo {
     /** 内容 */
     source: Buffer;
 }
+/** 添加监听-属性 */
+export interface AddDependenciesOption {
+    compilation: Compilation;
+    srcs: string[];
+}
 /** yyl webpack plugin 基础类 - 属性 */
 export declare type YylWebpackPluginBaseProperty = Required<YylWebpackPluginBaseOption>;
 /** yyl webpack plugin 基础类 */
@@ -59,6 +64,10 @@ export declare class YylWebpackPluginBase {
     getFileName(name: string, cnt: Buffer, fname?: string): string;
     /** 初始化 compilation */
     initCompilation(compiler: Compiler): Promise<InitEmitHooksResult>;
+    /** 插件运行 */
+    apply(compiler: Compiler): Promise<void>;
     /** 更新 assets */
     updateAssets(op: UpdateAssetsOption): void;
+    /** 添加监听文件 */
+    addDependencies(op: AddDependenciesOption): void;
 }

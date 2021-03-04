@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.6
+ * yyl-webpack-plugin-base cjs 0.1.7
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -110,7 +110,6 @@ class YylWebpackPluginBase {
     initCompilation(compiler) {
         const { context, resolve } = compiler.options;
         const { name } = this;
-        const alias = {};
         if (resolve.alias) {
             Object.keys(resolve.alias).forEach((key) => {
                 let iPath = toCtx(resolve.alias)[key];
@@ -120,59 +119,45 @@ class YylWebpackPluginBase {
                 if (context) {
                     iPath = path__default['default'].resolve(context, iPath);
                 }
-                alias[key] = iPath;
             });
         }
         return new Promise((resolve) => {
-            // + map init
-            const moduleAssets = {};
-            compiler.hooks.compilation.tap(name, (compilation) => {
-                compilation.hooks.moduleAsset.tap(name, (module, file) => {
-                    if (module.userAssets) {
-                        moduleAssets[file] = path__default['default'].join(path__default['default'].dirname(file), path__default['default'].basename(module.userRequest));
-                    }
-                });
-            });
-            compiler.hooks.emit.tapAsync(name, (compilation, done) => __awaiter(this, void 0, void 0, function* () {
-                // + init assetMap
-                const assetMap = {};
-                compilation.chunks.forEach((chunk) => {
-                    chunk.files.forEach((fName) => {
-                        if (/hot-update/.test(fName)) {
+            const assetMap = {};
+            compiler.hooks.thisCompilation.tap(name, (compilation) => {
+                compilation.hooks.processAssets.tap(name, () => {
+                    const stats = compilation.getStats().toJson({
+                        all: false,
+                        assets: true,
+                        module: true,
+                        cachedAssets: true,
+                        ids: true,
+                        publicPath: true
+                    });
+                    stats.assets.forEach((asset) => {
+                        const extname = path__default['default'].extname(asset.name);
+                        const dirname = path__default['default'].dirname(asset.name);
+                        const oriFilename = asset.chunkNames[0];
+                        let oriDist = '';
+                        if (extname === '.map') {
                             return;
                         }
-                        if (chunk.name) {
-                            const key = `${util__default['default'].path.join(path__default['default'].dirname(fName), chunk.name)}.${this.getFileType(fName)}`;
-                            assetMap[key] = fName;
+                        else if (asset.info.sourceFilename) {
+                            oriDist = path__default['default'].join(dirname, path__default['default'].basename(asset.info.sourceFilename));
                         }
-                        else {
-                            assetMap[fName] = fName;
+                        else if (oriFilename && extname !== '.map') {
+                            oriDist = util__default['default'].path.join(dirname, `${oriFilename}${extname}`);
+                        }
+                        if (oriDist) {
+                            assetMap[oriDist] = asset.name;
                         }
                     });
+                    this.assetMap = assetMap;
+                    resolve({
+                        compilation,
+                        done: () => undefined
+                    });
                 });
-                const stats = compilation.getStats().toJson({
-                    all: false,
-                    assets: true,
-                    cachedAssets: true
-                });
-                stats.assets.forEach((asset) => {
-                    const name = moduleAssets[asset.name];
-                    if (name) {
-                        assetMap[name] = asset.name;
-                    }
-                    else if (asset.info.sourceFilename) {
-                        assetMap[util__default['default'].path.join(path__default['default'].dirname(asset.name), path__default['default'].basename(asset.info.sourceFilename))] = asset.name;
-                    }
-                });
-                // - init assetMap
-                this.assetMap = assetMap;
-                this.alias = alias;
-                resolve({
-                    compilation,
-                    done
-                });
-            }));
-            // - map init
+            });
         });
     }
     /** 插件运行 */

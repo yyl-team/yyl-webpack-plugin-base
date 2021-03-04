@@ -148,61 +148,44 @@ export class YylWebpackPluginBase {
     }
 
     return new Promise((resolve) => {
-      // + map init
-      const moduleAssets: ModuleAssets = {}
-      compiler.hooks.compilation.tap(name, (compilation) => {
-        compilation.hooks.moduleAsset.tap(name, (module: any, file) => {
-          if (module.userAssets) {
-            moduleAssets[file] = path.join(path.dirname(file), path.basename(module.userRequest))
-          }
-        })
-      })
+      const assetMap: ModuleAssets = {}
+      compiler.hooks.thisCompilation.tap(name, (compilation) => {
+        compilation.hooks.processAssets.tap(name, () => {
+          const stats = compilation.getStats().toJson({
+            all: false,
+            assets: true,
+            module: true,
+            cachedAssets: true,
+            ids: true,
+            publicPath: true
+          })
 
-      compiler.hooks.emit.tapAsync(name, async (compilation, done) => {
-        // + init assetMap
-        const assetMap: ModuleAssets = {}
-        compilation.chunks.forEach((chunk) => {
-          chunk.files.forEach((fName) => {
-            if (/hot-update/.test(fName)) {
+          stats.assets.forEach((asset: any) => {
+            const extname = path.extname(asset.name)
+            const dirname = path.dirname(asset.name)
+            const oriFilename = asset.chunkNames[0]
+            let oriDist = ''
+            if (extname === '.map') {
               return
+            } else if (asset.info.sourceFilename) {
+              oriDist = path.join(dirname, path.basename(asset.info.sourceFilename))
+            } else if (oriFilename && extname !== '.map') {
+              oriDist = util.path.join(dirname, `${oriFilename}${extname}`)
             }
-            if (chunk.name) {
-              const key = `${util.path.join(path.dirname(fName), chunk.name)}.${this.getFileType(
-                fName
-              )}`
-              assetMap[key] = fName
-            } else {
-              assetMap[fName] = fName
+
+            if (oriDist) {
+              assetMap[oriDist] = asset.name
             }
           })
-        })
 
-        const stats = compilation.getStats().toJson({
-          all: false,
-          assets: true,
-          cachedAssets: true
-        })
-        stats.assets.forEach((asset: any) => {
-          const name = moduleAssets[asset.name]
-          if (name) {
-            assetMap[name] = asset.name
-          } else if (asset.info.sourceFilename) {
-            assetMap[
-              util.path.join(path.dirname(asset.name), path.basename(asset.info.sourceFilename))
-            ] = asset.name
-          }
-        })
-        // - init assetMap
+          this.assetMap = assetMap
 
-        this.assetMap = assetMap
-        this.alias = alias
-
-        resolve({
-          compilation,
-          done
+          resolve({
+            compilation,
+            done: () => undefined
+          })
         })
       })
-      // - map init
     })
   }
 

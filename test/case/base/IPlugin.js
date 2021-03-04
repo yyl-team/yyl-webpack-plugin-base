@@ -25,23 +25,24 @@ class IPlugin extends YylWebpackPluginBase {
     }
     logger.group(name)
 
-    Object
-      .keys(compilation.assets)
+    Object.keys(this.assetMap).forEach((key) => {
+      logger.info('assetMap:')
+      logger.info(`${key} -> ${this.assetMap[key]}`)
+    })
+
+    Object.keys(compilation.assets)
       .filter((x) => path.extname(x) === '.html')
       .forEach((key) => {
-        const srcIndex = Object.keys(this.assetMap).map((key) => this.assetMap[key]).indexOf(key)
+        const srcIndex = Object.keys(this.assetMap)
+          .map((key) => this.assetMap[key])
+          .indexOf(key)
 
         this.updateAssets({
           compilation,
           oriDist: key,
           assetsInfo: {
             src: srcIndex === -1 ? undefined : assetMapKeys[srcIndex],
-            source: Buffer.from(
-              addMark(
-                compilation.assets[key].source().toString()
-              ),
-              'utf-8'
-            ),
+            source: Buffer.from(addMark(compilation.assets[key].source().toString()), 'utf-8'),
             dist: key
           }
         })

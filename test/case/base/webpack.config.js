@@ -60,7 +60,7 @@ const wConfig = {
     }),
     new IPlugin({
       context: __dirname
-    }),
+    })
   ],
   devServer: {
     contentBase: './dist',

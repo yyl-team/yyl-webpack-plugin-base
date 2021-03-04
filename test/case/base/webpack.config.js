@@ -2,15 +2,10 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const extOs = require('yyl-os')
 const { YylWebpackPluginBase } = require('../../../')
-
-// + plugin options
-const iPluginOption = {
-  context: __dirname,
-  name: 'yylBase'
-}
-// - plugin options
+const IPlugin = require('./IPlugin')
 
 const wConfig = {
   mode: 'development',
@@ -43,7 +38,7 @@ const wConfig = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -54,12 +49,17 @@ const wConfig = {
   },
   devtool: 'source-map',
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name]-[chunkhash:8].css'
+    }),
     new CleanWebpackPlugin(),
-    new YylWebpackPluginBase(iPluginOption),
     new HtmlWebpackPlugin({
       template: './src/entry/index/index.html',
       filename: '../html/index.html',
       chunks: 'all'
+    }),
+    new IPlugin({
+      context: __dirname
     })
   ],
   devServer: {

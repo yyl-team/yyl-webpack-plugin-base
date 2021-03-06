@@ -24,7 +24,7 @@
 
 输出目录
 
-Defined in: index.ts:48
+Defined in: index.ts:41
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 内容
 
-Defined in: index.ts:50
+Defined in: index.ts:43
 
 ___
 
@@ -44,4 +44,4 @@ ___
 
 文件源
 
-Defined in: index.ts:46
+Defined in: index.ts:39

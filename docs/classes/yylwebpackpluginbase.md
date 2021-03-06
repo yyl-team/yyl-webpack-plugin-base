@@ -16,7 +16,6 @@ yyl webpack plugin 基础类
 
 ### Properties
 
-- [alias](yylwebpackpluginbase.md#alias)
 - [assetMap](yylwebpackpluginbase.md#assetmap)
 - [context](yylwebpackpluginbase.md#context)
 - [filename](yylwebpackpluginbase.md#filename)
@@ -45,19 +44,9 @@ Name | Type |
 
 **Returns:** [*YylWebpackPluginBase*](yylwebpackpluginbase.md)
 
-Defined in: index.ts:72
+Defined in: index.ts:69
 
 ## Properties
-
-### alias
-
-• **alias**: [*Alias*](../interfaces/alias.md)
-
-resolve.alias 绝对路径
-
-Defined in: index.ts:70
-
-___
 
 ### assetMap
 
@@ -65,7 +54,7 @@ ___
 
 assetsMap
 
-Defined in: index.ts:72
+Defined in: index.ts:69
 
 ___
 
@@ -75,7 +64,7 @@ ___
 
 相对路径
 
-Defined in: index.ts:64
+Defined in: index.ts:63
 
 ___
 
@@ -85,7 +74,7 @@ ___
 
 输出文件格式
 
-Defined in: index.ts:68
+Defined in: index.ts:67
 
 ___
 
@@ -95,7 +84,7 @@ ___
 
 组件名称
 
-Defined in: index.ts:66
+Defined in: index.ts:65
 
 ## Methods
 
@@ -113,7 +102,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: index.ts:223
+Defined in: index.ts:209
 
 ___
 
@@ -131,7 +120,7 @@ Name | Type |
 
 **Returns:** *Promise*<*void*\>
 
-Defined in: index.ts:193
+Defined in: index.ts:176
 
 ___
 
@@ -151,7 +140,7 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: index.ts:101
+Defined in: index.ts:98
 
 ___
 
@@ -169,13 +158,13 @@ Name | Type |
 
 **Returns:** *string*
 
-Defined in: index.ts:89
+Defined in: index.ts:86
 
 ___
 
 ### initCompilation
 
-▸ **initCompilation**(`compiler`: *Compiler*): *Promise*<[*InitEmitHooksResult*](../interfaces/initemithooksresult.md)\>
+▸ **initCompilation**(`op`: [*YylWebpackPluginBaseInitCompilationOption*](../interfaces/yylwebpackpluginbaseinitcompilationoption.md)): *void*
 
 初始化 compilation
 
@@ -183,11 +172,11 @@ ___
 
 Name | Type |
 ------ | ------ |
-`compiler` | *Compiler* |
+`op` | [*YylWebpackPluginBaseInitCompilationOption*](../interfaces/yylwebpackpluginbaseinitcompilationoption.md) |
 
-**Returns:** *Promise*<[*InitEmitHooksResult*](../interfaces/initemithooksresult.md)\>
+**Returns:** *void*
 
-Defined in: index.ts:131
+Defined in: index.ts:128
 
 ___
 
@@ -205,4 +194,4 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: index.ts:206
+Defined in: index.ts:192

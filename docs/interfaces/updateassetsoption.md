@@ -22,7 +22,7 @@
 
 assets 信息
 
-Defined in: index.ts:40
+Defined in: index.ts:33
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • **compilation**: *Compilation*
 
-Defined in: index.ts:41
+Defined in: index.ts:34
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 原先输出路径
 
-Defined in: index.ts:38
+Defined in: index.ts:31

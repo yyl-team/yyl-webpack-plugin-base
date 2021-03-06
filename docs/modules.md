@@ -13,9 +13,9 @@
 - [AddDependenciesOption](interfaces/adddependenciesoption.md)
 - [Alias](interfaces/alias.md)
 - [AssetsInfo](interfaces/assetsinfo.md)
-- [InitEmitHooksResult](interfaces/initemithooksresult.md)
 - [ModuleAssets](interfaces/moduleassets.md)
 - [UpdateAssetsOption](interfaces/updateassetsoption.md)
+- [YylWebpackPluginBaseInitCompilationOption](interfaces/yylwebpackpluginbaseinitcompilationoption.md)
 - [YylWebpackPluginBaseOption](interfaces/yylwebpackpluginbaseoption.md)
 
 ### Type aliases
@@ -34,7 +34,7 @@
 
 yyl webpack plugin 基础类 - 属性
 
-Defined in: index.ts:60
+Defined in: index.ts:53
 
 ## Functions
 

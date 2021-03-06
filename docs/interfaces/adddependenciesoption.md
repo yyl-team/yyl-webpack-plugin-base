@@ -21,7 +21,7 @@
 
 • **compilation**: *Compilation*
 
-Defined in: index.ts:55
+Defined in: index.ts:48
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 • **srcs**: *string*[]
 
-Defined in: index.ts:56
+Defined in: index.ts:49

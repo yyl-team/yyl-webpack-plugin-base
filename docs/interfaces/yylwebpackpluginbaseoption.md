@@ -22,7 +22,7 @@ yyl webpack plugin 基础类 - 配置
 
 • `Optional` **context**: *undefined* \| *string*
 
-Defined in: index.ts:31
+Defined in: index.ts:24
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • `Optional` **filename**: *undefined* \| *string*
 
-Defined in: index.ts:33
+Defined in: index.ts:26
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 • `Optional` **name**: *undefined* \| *string*
 
-Defined in: index.ts:32
+Defined in: index.ts:25

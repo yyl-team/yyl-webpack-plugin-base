@@ -10,12 +10,6 @@ export interface Alias {
 export interface ModuleAssets {
     [index: string]: string;
 }
-/** emit hook init - 返回结果 */
-export interface InitEmitHooksResult {
-    compilation: Compilation;
-    /** 完成回调 */
-    done: (error?: Error) => void;
-}
 /** yyl webpack plugin 基础类 - 配置 */
 export interface YylWebpackPluginBaseOption {
     context?: string;
@@ -45,6 +39,10 @@ export interface AddDependenciesOption {
 }
 /** yyl webpack plugin 基础类 - 属性 */
 export declare type YylWebpackPluginBaseProperty = Required<YylWebpackPluginBaseOption>;
+export interface YylWebpackPluginBaseInitCompilationOption {
+    compiler: Compiler;
+    onProcessAssets?: (compilation: Compilation) => Promise<void>;
+}
 /** yyl webpack plugin 基础类 */
 export declare class YylWebpackPluginBase {
     /** 相对路径 */
@@ -53,8 +51,6 @@ export declare class YylWebpackPluginBase {
     name: YylWebpackPluginBaseProperty['name'];
     /** 输出文件格式 */
     filename: YylWebpackPluginBaseProperty['filename'];
-    /** resolve.alias 绝对路径 */
-    alias: Alias;
     /** assetsMap */
     assetMap: ModuleAssets;
     constructor(option?: YylWebpackPluginBaseOption);
@@ -63,7 +59,7 @@ export declare class YylWebpackPluginBase {
     /** 获取文件名称 */
     getFileName(name: string, cnt: Buffer, fname?: string): string;
     /** 初始化 compilation */
-    initCompilation(compiler: Compiler): Promise<InitEmitHooksResult>;
+    initCompilation(op: YylWebpackPluginBaseInitCompilationOption): void;
     /** 插件运行 */
     apply(compiler: Compiler): Promise<void>;
     /** 更新 assets */

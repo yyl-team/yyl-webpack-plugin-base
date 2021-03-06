@@ -19,13 +19,6 @@ export interface ModuleAssets {
   [index: string]: string
 }
 
-/** emit hook init - 返回结果 */
-export interface InitEmitHooksResult {
-  compilation: Compilation
-  /** 完成回调 */
-  done: (error?: Error) => void
-}
-
 /** yyl webpack plugin 基础类 - 配置 */
 export interface YylWebpackPluginBaseOption {
   context?: string
@@ -58,6 +51,12 @@ export interface AddDependenciesOption {
 
 /** yyl webpack plugin 基础类 - 属性 */
 export type YylWebpackPluginBaseProperty = Required<YylWebpackPluginBaseOption>
+
+export interface YylWebpackPluginBaseInitCompilationOption {
+  compiler: Compiler
+  onProcessAssets?: (compilation: Compilation) => Promise<void>
+}
+
 /** yyl webpack plugin 基础类 */
 export class YylWebpackPluginBase {
   /** 相对路径 */
@@ -66,8 +65,6 @@ export class YylWebpackPluginBase {
   name: YylWebpackPluginBaseProperty['name'] = 'yylBase'
   /** 输出文件格式 */
   filename: YylWebpackPluginBaseProperty['filename'] = '[name]-[hash:8].[ext]'
-  /** resolve.alias 绝对路径 */
-  alias: Alias = {}
   /** assetsMap */
   assetMap: ModuleAssets = {}
 
@@ -128,38 +125,23 @@ export class YylWebpackPluginBase {
   }
 
   /** 初始化 compilation */
-  initCompilation(compiler: Compiler): Promise<InitEmitHooksResult> {
-    const { context, resolve } = compiler.options
+  initCompilation(op: YylWebpackPluginBaseInitCompilationOption): void {
+    const { compiler, onProcessAssets } = op
     const { name } = this
-    const alias: Alias = {}
 
-    if (resolve.alias) {
-      Object.keys(resolve.alias).forEach((key) => {
-        let iPath: string = toCtx<any>(resolve.alias)[key]
-        if (iPath) {
-          iPath = path.resolve(this.context, iPath)
-        }
-        if (context) {
-          iPath = path.resolve(context, iPath)
-        }
+    const assetMap: ModuleAssets = {}
+    compiler.hooks.thisCompilation.tap(name, (compilation) => {
+      compilation.hooks.processAssets.tapAsync(name, async (assets: any, done) => {
+        const stats = compilation.getStats().toJson({
+          all: false,
+          assets: true,
+          modules: true,
+          cachedAssets: true,
+          ids: true,
+          publicPath: true
+        })
 
-        alias[key] = iPath
-      })
-    }
-
-    return new Promise((resolve) => {
-      const assetMap: ModuleAssets = {}
-      compiler.hooks.thisCompilation.tap(name, (compilation) => {
-        compilation.hooks.processAssets.tapAsync(name, (assets: any, done) => {
-          const stats = compilation.getStats().toJson({
-            all: false,
-            assets: true,
-            module: true,
-            cachedAssets: true,
-            ids: true,
-            publicPath: true
-          })
-
+        if (stats.assets) {
           stats.assets.forEach((asset: any) => {
             const extname = path.extname(asset.name)
             const dirname = path.dirname(asset.name)
@@ -177,14 +159,15 @@ export class YylWebpackPluginBase {
               assetMap[oriDist] = asset.name
             }
           })
+        }
 
-          this.assetMap = assetMap
+        this.assetMap = assetMap
 
-          resolve({
-            compilation,
-            done
-          })
-        })
+        if (onProcessAssets) {
+          await onProcessAssets(compilation)
+        }
+
+        done()
       })
     })
   }
@@ -192,14 +175,17 @@ export class YylWebpackPluginBase {
   /** 插件运行 */
   async apply(compiler: Compiler) {
     const { name } = this
-    const { compilation, done } = await this.initCompilation(compiler)
-    const logger = compilation.getLogger(name)
-    logger.group(name)
-    Object.keys(this.assetMap).forEach((key) => {
-      logger.info(`${key} -> ${this.assetMap[key]}`)
+    this.initCompilation({
+      compiler,
+      onProcessAssets: async (compilation) => {
+        const logger = compilation.getLogger(name)
+        logger.group(name)
+        Object.keys(this.assetMap).forEach((key) => {
+          logger.info(`${key} -> ${this.assetMap[key]}`)
+        })
+        logger.groupEnd()
+      }
     })
-    logger.groupEnd()
-    done()
   }
 
   /** 更新 assets */

@@ -14,9 +14,10 @@ const wConfig = {
     index: ['./src/entry/index/index.js']
   },
   output: {
-    path: path.join(__dirname, './dist/js'),
-    filename: '[name]-[chunkhash:8].js',
-    chunkFilename: 'async_component/[name]-[chunkhash:8].js'
+    path: path.join(__dirname, './dist/'),
+    filename: 'js/[name]-[chunkhash:8].js',
+    publicPath: '/',
+    chunkFilename: 'js/async_component/[name]-[chunkhash:8].js'
   },
   module: {
     rules: [
@@ -33,7 +34,7 @@ const wConfig = {
         loader: 'url-loader',
         options: {
           limit: 0,
-          name: '[name]-[hash:8].[ext]'
+          name: 'images/[name]-[hash:8].[ext]'
         }
       },
       {
@@ -50,12 +51,13 @@ const wConfig = {
   devtool: 'source-map',
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name]-[chunkhash:8].css'
+      filename: 'css/[name]-[chunkhash:8].css'
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/entry/index/index.html',
-      filename: '../html/index.html',
+      template: path.join(__dirname, './src/entry/index/index.html'),
+      filename: 'html/index.html',
+      inject: 'body',
       chunks: 'all'
     }),
     new IPlugin({
@@ -63,13 +65,17 @@ const wConfig = {
     })
   ],
   devServer: {
-    contentBase: './dist',
-    compress: true,
+    static: [
+      {
+        directory: './dist',
+        publicPath: '/'
+      }
+    ],
     port: 5000,
-    writeToDisk: true,
-    async after() {
-      await extOs.openBrowser('http://127.0.0.1:5000/html/')
-    }
+    hot: true,
+    open: true,
+    useLocalIp: true,
+    openPage: 'http://127.0.0.1:5000/html/'
   }
 }
 

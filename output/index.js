@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.1.8
+ * yyl-webpack-plugin-base cjs 0.2.1
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -57,8 +57,6 @@ class YylWebpackPluginBase {
         this.name = 'yylBase';
         /** 输出文件格式 */
         this.filename = '[name]-[hash:8].[ext]';
-        /** resolve.alias 绝对路径 */
-        this.alias = {};
         /** assetsMap */
         this.assetMap = {};
         if (option === null || option === void 0 ? void 0 : option.context) {
@@ -107,32 +105,21 @@ class YylWebpackPluginBase {
         return util__default['default'].path.join(dirname, r);
     }
     /** 初始化 compilation */
-    initCompilation(compiler) {
-        const { context, resolve } = compiler.options;
+    initCompilation(op) {
+        const { compiler, onProcessAssets } = op;
         const { name } = this;
-        if (resolve.alias) {
-            Object.keys(resolve.alias).forEach((key) => {
-                let iPath = toCtx(resolve.alias)[key];
-                if (iPath) {
-                    iPath = path__default['default'].resolve(this.context, iPath);
-                }
-                if (context) {
-                    iPath = path__default['default'].resolve(context, iPath);
-                }
-            });
-        }
-        return new Promise((resolve) => {
-            const assetMap = {};
-            compiler.hooks.thisCompilation.tap(name, (compilation) => {
-                compilation.hooks.processAssets.tapAsync(name, (assets, done) => {
-                    const stats = compilation.getStats().toJson({
-                        all: false,
-                        assets: true,
-                        module: true,
-                        cachedAssets: true,
-                        ids: true,
-                        publicPath: true
-                    });
+        const assetMap = {};
+        compiler.hooks.thisCompilation.tap(name, (compilation) => {
+            compilation.hooks.processAssets.tapAsync(name, (assets, done) => __awaiter(this, void 0, void 0, function* () {
+                const stats = compilation.getStats().toJson({
+                    all: false,
+                    assets: true,
+                    modules: true,
+                    cachedAssets: true,
+                    ids: true,
+                    publicPath: true
+                });
+                if (stats.assets) {
                     stats.assets.forEach((asset) => {
                         const extname = path__default['default'].extname(asset.name);
                         const dirname = path__default['default'].dirname(asset.name);
@@ -151,27 +138,30 @@ class YylWebpackPluginBase {
                             assetMap[oriDist] = asset.name;
                         }
                     });
-                    this.assetMap = assetMap;
-                    resolve({
-                        compilation,
-                        done
-                    });
-                });
-            });
+                }
+                this.assetMap = assetMap;
+                if (onProcessAssets) {
+                    yield onProcessAssets(compilation);
+                }
+                done();
+            }));
         });
     }
     /** 插件运行 */
     apply(compiler) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name } = this;
-            const { compilation, done } = yield this.initCompilation(compiler);
-            const logger = compilation.getLogger(name);
-            logger.group(name);
-            Object.keys(this.assetMap).forEach((key) => {
-                logger.info(`${key} -> ${this.assetMap[key]}`);
+            this.initCompilation({
+                compiler,
+                onProcessAssets: (compilation) => __awaiter(this, void 0, void 0, function* () {
+                    const logger = compilation.getLogger(name);
+                    logger.group(name);
+                    Object.keys(this.assetMap).forEach((key) => {
+                        logger.info(`${key} -> ${this.assetMap[key]}`);
+                    });
+                    logger.groupEnd();
+                })
             });
-            logger.groupEnd();
-            done();
         });
     }
     /** 更新 assets */

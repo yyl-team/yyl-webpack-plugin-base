@@ -150,7 +150,7 @@ export class YylWebpackPluginBase {
             if (extname === '.map') {
               return
             } else if (asset.info.sourceFilename) {
-              oriDist = path.join(dirname, path.basename(asset.info.sourceFilename))
+              oriDist = util.path.join(dirname, path.basename(asset.info.sourceFilename))
             } else if (oriFilename && extname !== '.map') {
               oriDist = util.path.join(dirname, `${oriFilename}${extname}`)
             }

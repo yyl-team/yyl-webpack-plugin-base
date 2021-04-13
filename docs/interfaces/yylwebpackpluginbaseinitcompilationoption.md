@@ -19,7 +19,7 @@
 
 • **compiler**: *Compiler*
 
-Defined in: index.ts:56
+Defined in: [index.ts:56](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/b829ef0/src/index.ts#L56)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 • `Optional` **onProcessAssets**: *undefined* \| (`compilation`: *Compilation*) => *Promise*<*void*\>
 
-Defined in: index.ts:57
+Defined in: [index.ts:57](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/b829ef0/src/index.ts#L57)

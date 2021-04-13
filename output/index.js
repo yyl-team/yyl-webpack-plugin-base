@@ -1,5 +1,5 @@
 /*!
- * yyl-webpack-plugin-base cjs 0.2.1
+ * yyl-webpack-plugin-base cjs 0.2.2
  * (c) 2020 - 2021 
  * Released under the MIT License.
  */
@@ -129,7 +129,7 @@ class YylWebpackPluginBase {
                             return;
                         }
                         else if (asset.info.sourceFilename) {
-                            oriDist = path__default['default'].join(dirname, path__default['default'].basename(asset.info.sourceFilename));
+                            oriDist = util__default['default'].path.join(dirname, path__default['default'].basename(asset.info.sourceFilename));
                         }
                         else if (oriFilename && extname !== '.map') {
                             oriDist = util__default['default'].path.join(dirname, `${oriFilename}${extname}`);

@@ -34,7 +34,7 @@
 
 yyl webpack plugin 基础类 - 属性
 
-Defined in: index.ts:53
+Defined in: [index.ts:53](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/b829ef0/src/index.ts#L53)
 
 ## Functions
 
@@ -58,4 +58,4 @@ Name | Type |
 
 **Returns:** T
 
-Defined in: index.ts:8
+Defined in: [index.ts:8](https://github.com/jackness1208/yyl-webpack-plugin-base/blob/b829ef0/src/index.ts#L8)
